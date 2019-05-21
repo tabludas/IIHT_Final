@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from 'src/app/model/project';
 import { formatDate } from '@angular/common';
+import { User } from 'src/app/model/user';
 
 @Component({
   selector: 'app-add-project',
@@ -11,18 +12,19 @@ export class AddProjectComponent implements OnInit {
   project: Project;
   currentDate: Date;
   nextDate: Date;
+  disabled:boolean;
   constructor() {
     this.project = new Project();
+    this.project.user=new User();    
     this.project.priority = 0;
-
   }
 
   ngOnInit() {
   }
 
   onChecboxSelect(event: any) {
-    let startDate=document.getElementById("startDate");
-    let endDate=document.getElementById("endDate");
+    //let startDate:any=document.getElementById("startDate");
+    //let endDate:any=document.getElementById("endDate");
     
     if (event.target.checked) {
       this.currentDate = new Date();
@@ -30,19 +32,12 @@ export class AddProjectComponent implements OnInit {
       this.nextDate.setDate(this.currentDate.getDate() + 1);
       this.project.startDate = formatDate(this.currentDate, 'yyyy-MM-dd', 'en');
       this.project.endDate = formatDate(this.nextDate, 'yyyy-MM-dd', 'en');
-      console.log(this.project.startDate);
-      console.log(this.project.endDate);
+      this.disabled=false;
       
-      startDate.disabled=false;      
-      endDate.disabled=false;
-      console.log(startDate);
-
-     
-    } else if(!event.target.checked){      
-      startDate.disabled=true;     
-      endDate.disabled=true;      
+    } else if(!event.target.checked){ 
       this.project.startDate="";
       this.project.endDate="";
+      this.disabled=true;
     }
   }
 
