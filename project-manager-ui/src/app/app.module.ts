@@ -7,6 +7,8 @@ import { AddProjectComponent } from './components/project/add-project/add-projec
 import { AddTaskComponent } from './components/task/add-task/add-task.component';
 import { AddUserComponent } from './components/user/add-user/add-user.component';
 import { ViewTaskComponent } from './components/task/view-task/view-task.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,12 +16,14 @@ import { ViewTaskComponent } from './components/task/view-task/view-task.compone
     AddProjectComponent,
     AddTaskComponent,
     AddUserComponent,
-    ViewTaskComponent
+    ViewTaskComponent    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    HttpClientModule,
+    FormsModule,
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

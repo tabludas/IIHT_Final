@@ -1,11 +1,12 @@
 <div class="formContainer">
   <form class="needs-validation" novalidate>
-    <div class="form-group row" style="margin-left:.1%">
+    <div class="form-group row required" style="margin-left:.1%">
       <div class="col-md-1">
         <label for="projectName" class="col-sm-1 col-form-label col-form-label-lg">Project:</label>
       </div>
       <div class="col-md-6">
-        <input type="text" name="projectName" class="form-control" id="projectName" />
+        <input type="text" name="projectName" class="form-control" id="projectName" [(ngModel)]="project.projectName"
+          required />
         <div class="invalid-feedback">Project is Mandatory Field</div>
       </div>
     </div>
@@ -13,7 +14,7 @@
     <div class="form-group row" style="margin-left:10%">
       <div class="col-md-2">
         <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)" />
-        Set Start and End Date
+         Set Start and End Date
       </div>
       <div class="col-md-2" style="margin-left: 1%">
         <input type="date" id="startDate" class="form-check-input" name="startDate" [(ngModel)]="project.startDate"
@@ -37,23 +38,24 @@
       </div>
     </div>
 
-    <div class="form-group row" style="margin-left:.1%;height:50px">
+    <div class="form-group row required" style="margin-left:.1%;height:50px">
       <div class="col-md-1">
         <label for="managerName" class="col-sm-1 col-form-label col-form-label-lg">Manager:</label>
       </div>
       <div class="col-md-5">
         <input type="text" name="managerName" class="form-control" id="managerName"
-          [(ngModel)]="project.user.firstName" />
+          value="{{project.user.firstName}} {{project.user.lastName}}" readonly/>
       </div>
       <div class="col-md-1">
-        <button type="button" id="search" class="button buttonSearch">Serach</button>
+        <button type="button" id="search" class="button buttonSearch" (click)="openUserModal(template1)">Serach</button>
       </div>
     </div>
 
     <div class="form-group row" style="margin-left:.1%">
       <div class="col-md-4"></div>
       <div class="col-md-1" style="margin-left: 5px">
-        <button type="button" id="add" class="btn btn-secondary btn-sm" style="margin:10px;width:80px">Add Task</button>
+        <button type="button" id="add" class="btn btn-secondary btn-sm" style="margin:10px;width:90px"
+          (click)="saveOrUpdateProject()">Add Project</button>
       </div>
       <div class="col-md-1">
         <button type="button" id="reset" class="btn btn-secondary btn-sm" style="margin:10px;width:80px"
@@ -62,73 +64,194 @@
     </div>
   </form>
 </div>
+
 <div class="col-md-7" style="margin-left:.1%">
   <hr style="border:1px solid#7f797961" />
 </div>
 
-<div class="form-group row" style="margin-left:.1%">
+<div class="row" style="margin-left:.1%">
   <div class="col-md-1">
     <label for="Search" class="col-sm-1 col-form-label col-form-label-lg">Search</label>
   </div>
   <div class="col-md-6">
-    <input type="text" name="projectName" class="form-control" id="projectName" />
-    <div class="invalid-feedback">Project is Mandatory Field</div>
+    <input type="text" name="searchValue" class="form-control" id="searchValue" [(ngModel)]="searchValue" />
   </div>
 </div>
 
-<div class="form-group row" style="margin-left:5%">
+<div class="row" style="margin-left:5%">
   <div class="col-md-1" style="margin-left: 2%">
     <label for="sortBy" class="col-form-label-lg">Sort By:</label>
   </div>
   <div class="col-md-1">
     <button type="button" id="startDate" class="btn btn-secondary btn-sm" style="margin:10px;width:100px"
-      (click)="reset()">Start Date</button>
+      (click)="sortByStartDate()">Start Date</button>
   </div>
   <div class="col-md-1">
     <button type="button" id="endDate" class="btn btn-secondary btn-sm" style="margin:10px;width:100px"
-      (click)="reset()">End Date</button>
+      (click)="sortByEndDate()">End Date</button>
   </div>
   <div class="col-md-1">
     <button type="button" id="priority" class="btn btn-secondary btn-sm" style="margin:10px;width:100px"
-      (click)="reset()">Priority</button>
+      (click)="sortByPriority()">Priority</button>
   </div>
   <div class="col-md-1">
     <button type="button" id="completed" class="btn btn-secondary btn-sm" style="margin:10px;width:100px"
-      (click)="reset()">Completed</button>
+      (click)="sortByCompletion()">Completed</button>
   </div>
 </div>
 
-<div class="row" style="margin-left:6%;">
-  <div class="col-md-4" style="padding-right:.1%;background-color:hsla(0, 33%, 92%, 0.871)">
-    <label for="project" class="col-sm-1 col-form-label col-form-label-lg">Project:</label>
-    <span style="margin: 20%">vnvvvvvvvvvvvvvvvvvvv</span>
-    <div class="row">
-      <div class="col-md-5" style="margin:4%">
-        <label for="project" class="col-form-label-lg">No Of Tasks:</label>
-        <span style="margin: 3%">10</span>
+<div *ngFor="let project of filteredData;let i=index">
+  <div class="row" style="margin-left:6%;" id={{i}}>
+    <div class="col-md-4" style="padding-right:.1%;background-color:hsla(0, 33%, 92%, 0.871)">
+      <label for="project" class="col-sm-1 col-form-label col-form-label-lg">Project:</label>
+      <span style="margin: 20%">{{project.projectName}}</span>
+      <div class="row">
+        <div class="col-md-5" style="margin:4%">
+          <label for="project" class="col-form-label-lg">No Of Tasks:</label>
+          <span style="margin: 3%">{{project.no_Of_Task}}</span>
+        </div>
+        <div class="col-md-5" style="padding:4%">
+          <label for="project" class="col-sm-1 col-form-label col-form-label-lg">Completed:</label>
+          <span style="margin:3%;padding-left:60%">{{project.projectCompleted}}</span>
+        </div>
       </div>
-      <div class="col-md-5" style="padding:4%">
-        <label for="project" class="col-sm-1 col-form-label col-form-label-lg">Completed:</label>
+      <div class="row">
+        <div class="col-md-6" style="margin-right:4%;margin-left:4%">
+          <label for="startDate" class="col-form-label-lg">Start Date:</label>
+          <span style="margin-left:1%">{{project.startDate}}</span>
+        </div>
+        <div class="col-md-5" style="padding-left:.1%;padding-right:.5%;margin-right:.1%">
+          <label for="endDate" class="col-form-label-lg">End Date:</label>
+          <span style="margin-left:1%">{{project.endDate}}</span>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6" style="margin-right:4%;margin-left:4%">
-        <label for="startDate" class="col-form-label-lg">Start Date:</label>
-        <span style="margin-left:1%">2019-15-28</span>
-      </div>
-      <div class="col-md-5" style="padding-left:.1%;padding-right:.5%;margin-right:.1%">
-        <label for="endDate" class="col-form-label-lg">End Date:</label>
-        <span style="margin-left:1%">2019-15-28</span>
-      </div>
+    <div class="col-md-1" style="background-color:hsla(3, 20%, 95%, 0.8705882352941177)">
+      <label for="priority" class="col-form-label-lg">Priority</label>
+      <span style="margin: 30%">{{project.priority}}</span>
+    </div>
+    <div class="col-md-2" style="padding-top: 2%">
+      <button type="button" id="update" class="btn btn-secondary btn-sm" style="margin:10px;width:50%;height:30%"
+        (click)="openProjectModal(template2,i)" [disabled]="project.projectCompleted==='Y'">Update</button>
+      <button type="button" id="suspend" class="btn btn-secondary btn-sm" style="margin:10px;width:50%;height:30%"
+        (click)="suspend(i)" [disabled]="project.projectCompleted==='Y'">Suspend</button>
     </div>
   </div>
-  <div class="col-md-1" style="background-color:hsla(3, 20%, 95%, 0.8705882352941177)">
-    <label for="priority" class="col-form-label-lg">Priority</label>
-  </div>
-  <div class="col-md-2" style="padding-top: 2%">
-    <button type="button" id="update" class="btn btn-secondary btn-sm" style="margin:10px;width:50%;height:30%"
-      (click)="reset()">Update</button>
-    <button type="button" id="suspend" class="btn btn-secondary btn-sm" style="margin:10px;width:50%;height:30%"
-      (click)="reset()">Suspend</button>
-  </div>
+  <br />
 </div>
+
+<ng-template #template1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">User</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeUserModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="width:500px;height:500px">
+    <div class="form-group row">
+      <div class="col-md-2">
+        <label for="Search" class="col-form-label-lg">Search</label>
+      </div>
+      <div class="col-md-6">
+        <input type="text" name="userSearchValue" class="form-control" [(ngModel)]="userSearchValue" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-6">
+        <label for="name" class="col-form-label-lg">NAME</label>
+      </div>
+      <div class="col-md-3">
+        <label for="empId" class="col-form-label-lg">EMP ID</label>
+      </div>
+    </div>
+    <div *ngFor="let user of userFilteredData;let i = index">
+      <div class="form-group row" id={{i}}>
+        <div class="col-md-6">
+          <input type="text" name="firstName" class="form-control" id="firstName" disabled=true
+            value="{{user.firstName}} {{user.lastName}}" />
+        </div>
+        <div class="col-md-3">
+          <input type="text" name="empId" class="form-control" id="empId" disabled=true value={{user.empId}} />
+        </div>
+
+        <div class="col-md-3" style="padding:1%">
+          <button type="button" id="select" class="btn btn-secondary btn-sm" (click)="selectUser(i)">Select</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #template2>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Update Project</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeProjectModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="width:500px;height:500px">
+    <div *ngIf="successMessage">
+      <div class="alert alert-success alert-dismissible">
+        <span>{{successMessage}}</span>
+      </div>
+    </div>
+    <form class="needs-validation" #addForm novalidate>
+      <div class="form-group required row">
+        <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg">Project:</label>
+        <div class="col-md-9">
+          <input type="text" name="projectName2" class="form-control" id="projectName2" [(ngModel)]="filteredData[index].projectName"
+            required>
+          <div class="invalid-feedback">Project is mandatory field</div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-3" style="padding: 0%;margin: 0%">
+          <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)" style="margin-left: 3%"/>
+          <span style="margin-left: 15%">Set Start and End Date</span> 
+        </div>
+        <div class="col-md-4" style="margin-left: 5%" >
+          <input type="date" id="startDate2" class="form-check-input" name="startDate2" [(ngModel)]="filteredData[index].startDate"
+            disabled="{{disabled}}" />
+        </div>
+        <div class="col-md-1" >
+          <input type="date" id="endDate2" class="form-check-input" name="endDate2" [(ngModel)]="filteredData[index].endDate"
+               disabled="{{disabled}}" />
+        </div>
+      </div>
+
+      <div class="form-group row required">
+        <label for="priority2" class="col-md-3 col-form-label col-form-label-lg">Priority:</label>
+        <div class="col-sm-9">
+          <span class="font-weight-bold indigo-text mr-2 mt-1">0</span>
+          <span class="font-weight-bold indigo-text ml-0 mt-1 pd-90">30</span>
+          <input type="range" (click)="onDragUpdate($event,index)" name="priority2" min="0" max="30" class="custom-range"
+            [(ngModel)]="filteredData[index].priority" required>
+        </div>
+        <div class="invalid-feedback">Priority is mandatory field</div>
+      </div>
+
+      <div class="form-group row required" >
+        <div class="col-md-3" style="padding-left: 0%">
+          <label for="managerName" class="col-sm-1 col-form-label col-form-label-lg">Manager:</label>
+        </div>
+        <div class="col-md-6" >
+          <input type="text" name="managerName2" class="form-control" id="managerName2"
+            value="{{filteredData[index].user.firstName}} {{filteredData[index].user.lastName}}" />
+        </div>
+        <div class="col-md-1" style="margin-left: 5%">
+          <button type="button" id="search2" class="button buttonSearch" (click)="openUserModal(template1,index)">Serach</button>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-3"></div>
+        <button type="button" class="btn btn-secondary btn-sm" style="margin:10px"
+          [disabled]="(projects[index].projectName==null ||projects[index].projectName=='' || projects[index].startDate==null|| projects[index].startDate==''|| projects[index].endDate==null|| projects[index].endDate=='')"
+          (click)="updateProject(index)">Update</button>
+        <button type="button" class="btn btn-secondary btn-sm" style="margin:10px" (click)="closeProjectModal()">Close</button>
+        <div class="col-sm-2"></div>
+      </div>
+    </form>
+  </div>
+</ng-template>

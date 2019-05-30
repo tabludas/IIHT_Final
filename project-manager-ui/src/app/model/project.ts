@@ -7,8 +7,13 @@ export class Project {
     priority: number;
     startDate: string;
     endDate: string;
-    projectedCompleted: string;
+    projectCompleted: string;
     user: User;
     pmTasks: PmTask[];
-    checkBoxValue:boolean;
+    
+    get no_Of_Task():number{
+        if(this.pmTasks){
+            return this.pmTasks.length;
+        }        
+    }
 }
