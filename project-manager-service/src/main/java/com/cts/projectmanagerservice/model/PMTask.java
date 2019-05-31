@@ -34,12 +34,12 @@ public class PMTask extends BaseModel {
 
     @Column(name = "Start_Date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     @Column(name = "End_Date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -47,9 +47,9 @@ public class PMTask extends BaseModel {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Project_ID")//creates table project_pm_tasks
-    private Project project;*/
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Project_ID")//after creating table structure uncommente it else creates table project_pm_tasks
+    private Project project;
 
 
     public Integer getTaskId() {
@@ -116,12 +116,12 @@ public class PMTask extends BaseModel {
         this.user = user;
     }
 
-   /* public Project getProject() {
+   public Project getProject() {
         return project;
     }
 
     public void setProject(Project project) {
         this.project = project;
-    }*/
+    }
 
 }

@@ -32,7 +32,7 @@ export class AddProjectComponent implements OnInit {
 
   public set searchValue(value: string) {
     this._searchValue = value;
-    this.filteredData = this.searchValue ? this.performFilter(this.searchValue) : this.projects;
+    this.filteredData = this.searchValue ? this.performProjectFilter(this.searchValue) : this.projects;
   }
   public get searchValue(): string {
     return this._searchValue;
@@ -78,15 +78,16 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveOrUpdateProject(): any {
-    alert(JSON.stringify(this.project)); 
+    //alert(JSON.stringify(this.project)); 
     if (!this.validateData(this.project)) {
       return;
     }
-    alert(JSON.stringify(this.project));
-    this.projectService.saveOrUpdateProject(this.project).subscribe((response: any) => {
-      console.log(response);
-      this.projects.push(this.project);
-      this.filteredData.push(this.project);
+    //alert(JSON.stringify(this.project));
+    this.projectService.saveOrUpdateProject(this.project).subscribe((response: any) => {       
+      if(!this.filteredData.some(project=>project.projectId===this.project.projectId)){
+        this.filteredData.push(this.project);
+      }
+        
     },
       error => this.errorMsg = <any>error
     );
@@ -98,7 +99,7 @@ export class AddProjectComponent implements OnInit {
     this.closeProjectModal();
   }
 
-  performFilter(filterValue: string): Project[] {
+  performProjectFilter(filterValue: string): Project[] {
     filterValue = filterValue.toLocaleLowerCase();
     return this.projects.filter((project: Project) => project.projectName.toLocaleLowerCase().indexOf(filterValue) !== -1);
   }
@@ -196,7 +197,7 @@ export class AddProjectComponent implements OnInit {
 
   selectUser(i: number): void {
     this.project.user = this.userFilteredData[i];   
-    alert(JSON.stringify(this.project));
+    //alert(JSON.stringify(this.project));
     this.modalRef.hide();
   }
 
