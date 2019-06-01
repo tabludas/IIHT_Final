@@ -1,9 +1,6 @@
 package com.cts.projectmanagerservice.controller;
 
-import com.cts.projectmanagerservice.model.PMTask;
-import com.cts.projectmanagerservice.model.Project;
-import com.cts.projectmanagerservice.model.Result;
-import com.cts.projectmanagerservice.model.User;
+import com.cts.projectmanagerservice.model.*;
 import com.cts.projectmanagerservice.service.ProjectManagerService;
 import com.cts.projectmanagerservice.service.ProjectManagerServiceImpl;
 import org.hamcrest.Matchers;
@@ -112,6 +109,17 @@ public class ProjectManagerControllerTest {
         assertSame(expectedProjects, res.getBody().getData());
     }
 
+    @Test
+    public void getParentTasks() throws Exception {
+        List<PMParentTask> expectedParentTasks = new ArrayList<PMParentTask>();
+        PMParentTask parentTask = getPmParentTask();
+        expectedParentTasks.add(parentTask);
+
+        when(projectManagerService.getParentTasks()).thenReturn(expectedParentTasks);
+        ResponseEntity<Result> res = projectManagerController.getParentTasks();
+        assertSame(expectedParentTasks, res.getBody().getData());
+    }
+
     /*@Test
     public void deleteTask() throws Exception {
     }*/
@@ -136,6 +144,13 @@ public class ProjectManagerControllerTest {
         pmTask.setTaskId(1);
         pmTask.setTaskName("Task 1");
         return pmTask;
+    }
+
+    private PMParentTask getPmParentTask() {
+        PMParentTask pmParentTask = new PMParentTask();
+        pmParentTask.setParentTaskId(1);
+        pmParentTask.setParentTaskName("Parent Task 1");
+        return pmParentTask;
     }
 
 }

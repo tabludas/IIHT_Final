@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name ="PM_Task" )
+@Table(name = "PM_Task")
 public class PMTask extends BaseModel {
     private static final long serialVersionUID = 1L;
 
@@ -18,10 +18,10 @@ public class PMTask extends BaseModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer taskId;
 
-    @ManyToOne(fetch = FetchType.LAZY)//use @OneToOne to create table
+    @OneToOne(fetch = FetchType.LAZY)//use @OneToOne to create table
     @JoinColumn(name = "Parent_Task_ID")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private PMParentTask pmParentTask;
+    private PMParentTask parentTask;
 
     @Column(name = "Task_Name")
     private String taskName;
@@ -42,13 +42,14 @@ public class PMTask extends BaseModel {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "User_ID")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Project_ID")//after creating table structure uncommente it else creates table project_pm_tasks
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Project_ID")//before creating table structure uncomment it else creates table project_pm_tasks
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Project project;
 
 
@@ -60,12 +61,12 @@ public class PMTask extends BaseModel {
         this.taskId = taskId;
     }
 
-    public PMParentTask getPmParentTask() {
-        return pmParentTask;
+    public PMParentTask getParentTask() {
+        return parentTask;
     }
 
-    public void setPmParentTask(PMParentTask pmParentTask) {
-        this.pmParentTask = pmParentTask;
+    public void setParentTask(PMParentTask parentTask) {
+        this.parentTask = parentTask;
     }
 
     public String getTaskName() {
@@ -116,7 +117,7 @@ public class PMTask extends BaseModel {
         this.user = user;
     }
 
-   public Project getProject() {
+    public Project getProject() {
         return project;
     }
 

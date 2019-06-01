@@ -1,4 +1,5 @@
 export class PmParentTask {
-    parentId: string;
-    parentTask: string;
+    parentTaskId: string;
+    parentTaskName: string;
+    parentTaskDisabled:boolean;
 }

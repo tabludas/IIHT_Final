@@ -5,14 +5,14 @@
         <label for="projectName" class="col-sm-1 col-form-label col-form-label-lg">Project:</label>
       </div>
       <div class="col-md-6">
-        <input type="text" name="projectName" class="form-control" id="projectName" [(ngModel)]="project.projectName"/>
+        <input type="text" name="projectName" class="form-control" id="projectName" [(ngModel)]="project.projectName">
         <div class="invalid-feedback">Project is Mandatory Field</div>
       </div>
     </div>
 
     <div class="form-group row" style="margin-left:10%">
       <div class="col-md-2">
-        <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)" />
+        <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)">
          Set Start and End Date
       </div>
       <div class="col-md-2" style="margin-left: 1%">
@@ -107,7 +107,7 @@
       <div class="row">
         <div class="col-md-5" style="margin:4%">
           <label for="project" class="col-form-label-lg">No Of Tasks:</label>
-          <span style="margin: 3%">{{project.no_Of_Task}}</span>
+          <span style="margin: 3%">{{project.noOfTask}}</span>
         </div>
         <div class="col-md-5" style="padding:4%">
           <label for="project" class="col-sm-1 col-form-label col-form-label-lg">Completed:</label>
@@ -198,15 +198,14 @@
       <div class="form-group required row">
         <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg">Project:</label>
         <div class="col-md-9">
-          <input type="text" name="projectName2" class="form-control" id="projectName2" [(ngModel)]="filteredData[index].projectName"
-            required>
+          <input type="text" name="projectName2" class="form-control" id="projectName2" [(ngModel)]="filteredData[index].projectName">
           <div class="invalid-feedback">Project is mandatory field</div>
         </div>
       </div>
 
       <div class="form-group row">
         <div class="col-md-3" style="padding: 0%;margin: 0%">
-          <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)" style="margin-left: 3%"/>
+          <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)" style="margin-left: 3%">
           <span style="margin-left: 15%">Set Start and End Date</span> 
         </div>
         <div class="col-md-4" style="margin-left: 5%" >

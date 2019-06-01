@@ -1,9 +1,11 @@
 package com.cts.projectmanagerservice.service;
 
 import com.cts.projectmanagerservice.exception.ProjectManagerException;
+import com.cts.projectmanagerservice.model.PMParentTask;
 import com.cts.projectmanagerservice.model.PMTask;
 import com.cts.projectmanagerservice.model.Project;
 import com.cts.projectmanagerservice.model.User;
+import com.cts.projectmanagerservice.repository.ProjectManagerParentTaskRepository;
 import com.cts.projectmanagerservice.repository.ProjectManagerProjectRepository;
 import com.cts.projectmanagerservice.repository.ProjectManagerTaskRepository;
 import com.cts.projectmanagerservice.repository.ProjectManagerUserRepository;
@@ -27,21 +29,24 @@ public class ProjectManagerServiceImpl implements ProjectManagerService {
     @Autowired
     ProjectManagerProjectRepository projectManagerProjectRepository;
 
+    @Autowired
+    ProjectManagerParentTaskRepository projectManagerParentTaskRepository;
+
     @Override
     public void createOrUpdateTask(final PMTask pmTask) {
-        logger.info("Enter into ProjectManagerServiceImpl: createTask()--> "+pmTask);
+        logger.info("Enter into ProjectManagerServiceImpl: createTask()--> " + pmTask);
         projectManagerTaskRepository.save(pmTask);
     }
 
     @Override
     public void createOrUpdateUser(User user) throws ProjectManagerException {
-        logger.info("Enter into ProjectManagerServiceImpl: createUser()--> "+user);
+        logger.info("Enter into ProjectManagerServiceImpl: createUser()--> " + user);
         projectManagerUserRepository.save(user);
     }
 
     @Override
     public void createOrUpdateProject(Project project) throws ProjectManagerException {
-        logger.info("Enter into ProjectManagerServiceImpl: createProject()--> "+project);
+        logger.info("Enter into ProjectManagerServiceImpl: createProject()--> " + project);
         projectManagerProjectRepository.save(project);
     }
 
@@ -65,11 +70,16 @@ public class ProjectManagerServiceImpl implements ProjectManagerService {
     }
 
     @Override
-    public void deleteTask(final PMTask pmTask) throws ProjectManagerException {
-        logger.info("Enter into ProjectManagerServiceImpl: deleteTask()--> "+pmTask);
-        projectManagerTaskRepository.delete(pmTask);
+    public List<PMParentTask> getParentTasks() throws ProjectManagerException {
+        logger.info("Enter into ProjectManagerServiceImpl: getParentTasks()");
+        return projectManagerParentTaskRepository.findAll();
     }
 
+    @Override
+    public void deleteTask(final PMTask pmTask) throws ProjectManagerException {
+        logger.info("Enter into ProjectManagerServiceImpl: deleteTask()--> " + pmTask);
+        projectManagerTaskRepository.delete(pmTask);
+    }
 
 
 }

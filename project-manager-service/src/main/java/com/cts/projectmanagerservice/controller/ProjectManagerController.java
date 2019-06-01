@@ -143,6 +143,24 @@ public class ProjectManagerController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    //http://localhost:8086/api/projectmanager/getParentTasks
+    @GetMapping(path = "getParentTasks", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Result> getParentTasks() {
+        logger.info("Enter into ProjectManagerController: saveTask()");
+
+        Result<List<PMParentTask>> result = new Result<List<PMParentTask>>();
+        try {
+            List<PMParentTask> pmParentTasks = projectManagerService.getParentTasks();
+            result.setData(pmParentTasks);
+            result.setSuccess(true);
+        } catch (Exception ex) {
+            ProjectManagerException pe = populateProjectManagerException(result, ex);
+            throw pe;
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
     private <T> ProjectManagerException populateProjectManagerException(final Result<T> result, final Exception ex) {
         ProjectManagerException pe = new ProjectManagerException(ex);
         ErrorResponse er = pe.getError();

@@ -2,14 +2,17 @@
 
   <div class="form-group row required" style="margin-left:1%">
     <div class="col-md-1">
-      <label for="projectName" class="col-sm-2 col-form-label col-form-label-lg" style="padding-left:.1%">Project:</label>
-    </div>  
+      <label for="projectName" class="col-sm-2 col-form-label col-form-label-lg"
+        style="padding-left:.1%">Project:</label>
+    </div>
     <div class="col-md-4">
-      <input type="text" class="form-control" id="projectName" value="{{task.project.projectName}}">
+      <input type="text" class="form-control" id="projectName" name="projectName" [(ngModel)]="task.project.projectName"
+        readonly>
     </div>
     <div class="col-md-2">
-      <button type="button" id="search" class="button buttonSearch" (click)="selectProject()">Serach</button>
-    </div>    
+      <button type="button" id="search" class="button buttonSearch"
+        (click)="openProjectModal(template1)">Serach</button>
+    </div>
   </div>
 
   <div class="form-group row required" style="margin-left:.1%">
@@ -17,22 +20,23 @@
       <label for="task" class="col-sm-4 col-form-label col-form-label-lg">Task:</label>
     </div>
     <div class="col-md-5">
-      <input type="text" name="task" class="form-control" id="task" [(ngModel)]="task.taskName" style="margin-left: 2%">
-    </div>    
+      <input type="text" name="task" class="form-control" id="task" [(ngModel)]="task.taskName"
+        style="margin-left: 2%">
+    </div>
   </div>
 
   <div class="form-group row" style="margin-left:1%">
     <div class="col-md-1" style="margin-left:1.5%">
     </div>
     <div class="col-md-4">
-      <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)" />
+      <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)" checked>
       <span>Parent Task</span>
     </div>
   </div>
 
   <div class="form-group row" style="margin-left:.1%">
     <div class="col-md-1">
-        <label for="priority" class="col-sm-2 col-form-label col-form-label-lg" >Priority:</label>
+      <label for="priority" class="col-sm-2 col-form-label col-form-label-lg">Priority:</label>
     </div>
     <div class="col-md-5" style="margin-left: 1%">
       <span class="font-weight-bold indigo-text mr-2 mt-1">0</span>
@@ -42,44 +46,49 @@
     </div>
   </div>
 
-  <div class="form-group row required" style="margin-left:.1%">
-    <div class="col-md-1" >
-      <label for="parentTask" class="col-sm-2 col-form-label col-form-label-lg" style="white-space:nowrap">Parent Task:</label>
+  <div class="form-group row" style="margin-left:.1%">
+    <div class="col-md-1">
+      <label for="parentTask" class="col-sm-2 col-form-label col-form-label-lg" style="white-space:nowrap">Parent
+        Task:</label>
     </div>
     <div class="col-md-4" style="margin-left:1%">
-      <input type="text" class="form-control" id="parentTask" value="{{task.parentTask.parentTask}}">
+      <input type="text" class="form-control" id="parentTask" name="parentTask" [(ngModel)]="task.parentTask.parentTaskName"
+        readonly>
     </div>
     <div class="col-md-2">
-      <button type="button" id="search" class="button buttonSearch" (click)="selectParentTask()">Serach</button>
+      <button type="button" id="search" class="button buttonSearch" (click)="openParentTaskModal(template2)"
+        [disabled]="task.parentTask.parentTaskDisabled">Serach</button>
     </div>
   </div>
 
   <div class="form-group row required" style="margin-left:.1%">
     <div class="col-md-1">
-      <label for="startDate" class="col-sm-2 col-form-label col-form-label-lg" style="white-space:nowrap">Start Date:</label>
+      <label for="startDate" class="col-sm-2 col-form-label col-form-label-lg" style="white-space:nowrap">Start
+        Date:</label>
     </div>
     <div class="col-md-2" style="margin-left:1%">
       <input type="date" name="startDate" class="form-control" placeholder="DD/MM/YYYY" id="startDate"
         [(ngModel)]="task.startDate">
     </div>
     <div class="col-md-1">
-        <label for="endDate" class="col-sm-2 col-form-label col-form-label-lg" style="white-space:nowrap">End Date:</label>
+      <label for="endDate" class="col-sm-2 col-form-label col-form-label-lg" style="white-space:nowrap">End
+        Date:</label>
     </div>
-    <div class="col-md-2" >
+    <div class="col-md-2">
       <input type="date" name="endDate" class="form-control" placeholder="DD/MM/YYYY" id="endDate"
-      [(ngModel)]="task.endDate" >
+        [(ngModel)]="task.endDate">
     </div>
-  </div>  
+  </div>
 
   <div class="form-group row required" style="margin-left:.1%">
     <div class="col-md-1">
-      <label for="user" class="col-sm-2 col-form-label col-form-label-lg" >User:</label>
+      <label for="user" class="col-sm-2 col-form-label col-form-label-lg">User:</label>
     </div>
     <div class="col-md-4" style="margin-left:1%">
-      <input type="text" class="form-control" id="user" value="{{task.parentTask.parentTask}}">
+      <input type="text" class="form-control" id="user" name="user" value="{{task.user.fullName}}" readonly>
     </div>
     <div class="col-md-4">
-      <button type="button" id="search" class="button buttonSearch" (click)="selectUser()">Serach</button>
+      <button type="button" id="search" class="button buttonSearch" (click)="openUserModal(template3)">Serach</button>
     </div>
   </div>
 
@@ -88,13 +97,156 @@
     </div>
     <div class="col-md-2" style="padding-left: 10%">
       <button type="button" id="add" class="btn btn-secondary btn-sm"
-        [disabled]="(task.taskName==null ||task.taskName=='' || task.startDate==null|| task.startDate==''|| task.endDate==null|| task.endDate=='')"
-        (click)="saveTask()">Add Task</button>
+        [disabled]="!(task.taskName && task.startDate && task.endDate && task.project.projectName && task.user.fullName && validateDate())"
+        (click)="saveOrUpdateTask()">Add Task</button>
     </div>
     <div class="col-md-3">
-      <button type="button" id="reset" class="btn btn-secondary btn-sm" style="margin:10px" (click)="reset()" style="padding-top:0%;width:25%">Reset</button>
+      <button type="button" id="reset" class="btn btn-secondary btn-sm" style="margin:10px" (click)="reset()"
+        style="padding-top:0%;width:25%">Reset</button>
     </div>
-    
+
   </div>
 
 </form>
+
+<ng-template #template1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Project</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeProjectModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="width:500px;height:500px">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="Search" class="col-form-label-lg" style="margin-left: 25%">Search</label>
+      </div>
+      <div class="col-md-6">
+        <input type="text" name="projectSearchValue" class="form-control" [(ngModel)]="projectSearchValue">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg">Project</label>
+      </div>
+      <div class="col-md-3">
+        <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg" style="white-space:nowrap">Start
+          Date</label>
+      </div>
+      <div class="col-md-3">
+        <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg" style="white-space:nowrap">End
+          Date</label>
+      </div>
+
+      <div *ngFor="let project of filteredProjects;let i = index">
+        <div class="row" id={{i}}>
+          <div class="col-md-3">
+            <input type="text" name="projectName" class="form-control" id="projectName" disabled=true
+              value="{{project.projectName}}" style="margin-left:20%">
+          </div>
+          <div class="col-md-3">
+            <input type="text" name="startDate" class="form-control" id="startDate" disabled=true
+              value="{{project.startDate}}" style="margin-left:20%">
+          </div>
+          <div class="col-md-3">
+            <input type="text" name="endDate" class="form-control" id="endDate" disabled=true
+              value="{{project.endDate}}" style="margin-left:20%">
+          </div>
+          <div class="col-md-3" style="padding:1%">
+            <button type="button" id="select" class="btn btn-secondary btn-sm" (click)="selectProject(i)"
+              style="margin-left:20%">Select</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #template2>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Parent Task</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeParentTaskModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="width:500px;height:500px">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="Search" class="col-form-label-lg" style="margin-left: 25%">Search</label>
+      </div>
+      <div class="col-md-6">
+        <input type="text" name="parentTaskSearchValue" class="form-control" [(ngModel)]="parentTaskSearchValue">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="parentTaskName" class="col-sm-3 col-form-label col-form-label-lg" style="white-space:nowrap">Parent Task</label>
+      </div>
+      
+      <div class="col-md-4">
+        <label for="parentTaskId" class="col-sm-4 col-form-label col-form-label-lg" style="white-space:nowrap;padding-left:5%">Parent Task ID
+          </label>
+      </div>
+
+      <div *ngFor="let parentTask of filteredParentTasks;let i = index">
+        <div class="row" id={{i}}>
+          <div class="col-md-4">
+            <input type="text" name="parentTaskName" class="form-control" id="parentTaskName" disabled=true
+              value="{{parentTask.parentTaskName}}" style="margin-left:20%">
+          </div>
+          <div class="col-md-3">
+            <input type="text" name="parentId" class="form-control" id="parentId" disabled=true
+              value="{{parentTask.parentTaskId}}" style="margin-left:20%">
+          </div>          
+          <div class="col-md-3" style="padding:1%">
+            <button type="button" id="select" class="btn btn-secondary btn-sm" (click)="selectParentTask(i)"
+              style="margin-left:20%">Select</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #template3>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">User</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeUserModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="width:500px;height:500px">
+    <div class="form-group row">
+      <div class="col-md-2">
+        <label for="Search" class="col-form-label-lg">Search</label>
+      </div>
+      <div class="col-md-6">
+        <input type="text" name="userSearchValue" class="form-control" [(ngModel)]="userSearchValue" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-6">
+        <label for="name" class="col-form-label-lg">NAME</label>
+      </div>
+      <div class="col-md-3">
+        <label for="empId" class="col-form-label-lg">EMP ID</label>
+      </div>
+    </div>
+    <div *ngFor="let user of filteredUsers;let i = index">
+      <div class="form-group row" id={{i}}>
+        <div class="col-md-6">
+          <input type="text" name="firstName" class="form-control" id="firstName" disabled=true
+            value="{{user.firstName}} {{user.lastName}}" />
+        </div>
+        <div class="col-md-3">
+          <input type="text" name="empId" class="form-control" id="empId" disabled=true value={{user.empId}} />
+        </div>
+
+        <div class="col-md-3" style="padding:1%">
+          <button type="button" id="select" class="btn btn-secondary btn-sm" (click)="selectUser(i)">Select</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

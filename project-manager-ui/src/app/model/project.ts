@@ -10,10 +10,6 @@ export class Project {
     projectCompleted: string;
     user: User;
     pmTasks: PmTask[];
+    noOfTask:number;
     
-    get no_Of_Task():number{
-        if(this.pmTasks){
-            return this.pmTasks.length;
-        }        
-    }
 }

@@ -1,8 +1,10 @@
 package com.cts.projectmanagerservice.service;
 
+import com.cts.projectmanagerservice.model.PMParentTask;
 import com.cts.projectmanagerservice.model.PMTask;
 import com.cts.projectmanagerservice.model.Project;
 import com.cts.projectmanagerservice.model.User;
+import com.cts.projectmanagerservice.repository.ProjectManagerParentTaskRepository;
 import com.cts.projectmanagerservice.repository.ProjectManagerProjectRepository;
 import com.cts.projectmanagerservice.repository.ProjectManagerTaskRepository;
 import com.cts.projectmanagerservice.repository.ProjectManagerUserRepository;
@@ -37,6 +39,9 @@ public class ProjectManagerServiceImplTest {
     @Mock
     ProjectManagerProjectRepository projectManagerProjectRepository;
 
+    @Mock
+    ProjectManagerParentTaskRepository projectManagerParentTaskRepository;
+
     @Captor
     private ArgumentCaptor<PMTask> pmTaskArgument;
 
@@ -46,25 +51,28 @@ public class ProjectManagerServiceImplTest {
     @Captor
     private ArgumentCaptor<User> userArgument;
 
+    @Captor
+    private ArgumentCaptor<PMParentTask> parentTaskArgument;
+
     @Test
     public void createOrUpdateTask() throws Exception {
         PMTask pmTask = getPmTask();
         projectManagerService.createOrUpdateTask(pmTask);
-        verify(projectManagerTaskRepository,times(1)).save(pmTaskArgument.capture());
+        verify(projectManagerTaskRepository, times(1)).save(pmTaskArgument.capture());
     }
 
     @Test
     public void createOrUpdateUser() throws Exception {
         User user = getUser();
         projectManagerService.createOrUpdateUser(user);
-        verify(projectManagerUserRepository,times(1)).save(userArgument.capture());
+        verify(projectManagerUserRepository, times(1)).save(userArgument.capture());
     }
 
     @Test
     public void createOrUpdateProject() throws Exception {
         Project project = getProject();
         projectManagerService.createOrUpdateProject(project);
-        verify(projectManagerProjectRepository,times(1)).save(projectArgument.capture());
+        verify(projectManagerProjectRepository, times(1)).save(projectArgument.capture());
     }
 
     @Test
@@ -74,8 +82,8 @@ public class ProjectManagerServiceImplTest {
         expectedPmTasks.add(pmTask);
 
         when(projectManagerTaskRepository.findAll()).thenReturn(expectedPmTasks);
-        List<PMTask> actualPmTasks=projectManagerService.getTasks();
-        assertSame(expectedPmTasks,actualPmTasks);
+        List<PMTask> actualPmTasks = projectManagerService.getTasks();
+        assertSame(expectedPmTasks, actualPmTasks);
     }
 
     @Test
@@ -85,8 +93,8 @@ public class ProjectManagerServiceImplTest {
         expectedUsers.add(user);
 
         when(projectManagerUserRepository.findAll()).thenReturn(expectedUsers);
-        List<User> actualUsers=projectManagerService.getUsers();
-        assertSame(expectedUsers,actualUsers);
+        List<User> actualUsers = projectManagerService.getUsers();
+        assertSame(expectedUsers, actualUsers);
     }
 
     @Test
@@ -96,8 +104,19 @@ public class ProjectManagerServiceImplTest {
         expectedProjects.add(project);
 
         when(projectManagerProjectRepository.findAll()).thenReturn(expectedProjects);
-        List<Project> actualProjects=projectManagerService.getProjects();
-        assertSame(expectedProjects,actualProjects);
+        List<Project> actualProjects = projectManagerService.getProjects();
+        assertSame(expectedProjects, actualProjects);
+    }
+
+    @Test
+    public void getParentTasks() throws Exception {
+        List<PMParentTask> expectedParentTasks = new ArrayList<PMParentTask>();
+        PMParentTask parentTask = getPmParentTask();
+        expectedParentTasks.add(parentTask);
+
+        when(projectManagerParentTaskRepository.findAll()).thenReturn(expectedParentTasks);
+        List<PMParentTask> actualParentTasks = projectManagerService.getParentTasks();
+        assertSame(expectedParentTasks, actualParentTasks);
     }
 
    /* @Test
@@ -124,6 +143,13 @@ public class ProjectManagerServiceImplTest {
         pmTask.setTaskId(1);
         pmTask.setTaskName("Task 1");
         return pmTask;
+    }
+
+    private PMParentTask getPmParentTask() {
+        PMParentTask pmParentTask = new PMParentTask();
+        pmParentTask.setParentTaskId(1);
+        pmParentTask.setParentTaskName("Parent Task 1");
+        return pmParentTask;
     }
 
 }

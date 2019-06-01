@@ -53,6 +53,7 @@ export class AddProjectComponent implements OnInit {
   constructor(private modalService: BsModalService, private projectService: ProjectService) {
     this.project = new Project();
     this.project.priority = 0;
+    this.project.noOfTask=1;
     this.project.user = new User();
   }
 
@@ -78,7 +79,8 @@ export class AddProjectComponent implements OnInit {
   }
 
   saveOrUpdateProject(): any {
-    //alert(JSON.stringify(this.project)); 
+    //alert(JSON.stringify(this.project));
+    console.log("Project---> "+JSON.stringify(this.project));
     if (!this.validateData(this.project)) {
       return;
     }

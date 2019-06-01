@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import { ProjectConstant } from '../constants/project-constant';
 import { Result } from '../model/result';
 import { User } from '../model/user';
+import { PmParentTask } from '../model/pm-parent-task';
+import { PmTask } from '../model/pm-task';
 
 
 const httpOptions = {
@@ -36,12 +38,28 @@ export class ProjectService {
     );
   }
 
-  saveOrUpdateProject(project: Project): Observable<any> {
-    return this.http.post<Project>(ProjectConstant.SAVE_PROJECTS, project, httpOptions).pipe(tap((data: Result) =>
+  getParentTasks(): Observable<PmParentTask[]> {
+    return this.http.get<PmParentTask[]>(ProjectConstant.FETCH_PARENT_TASKS).pipe(tap((data: Result) => 
       console.log("Service layer-> "+data)),
       catchError(this.handleError)
     );
   }
+
+  saveOrUpdateProject(project: Project): Observable<any> {
+    return this.http.post<Project>(ProjectConstant.SAVE_PROJECT, project, httpOptions).pipe(tap((data: Result) =>
+      console.log("Service layer-> "+data)),
+      catchError(this.handleError)
+    );
+  }
+
+  saveOrUpdateTask(task: PmTask): Observable<any> {
+    return this.http.post<PmTask>(ProjectConstant.SAVE_TASK, task, httpOptions).pipe(tap((data: Result) =>
+      console.log("Service layer-> "+data)),
+      catchError(this.handleError)
+    );
+  }
+
+
   private handleError(err: HttpErrorResponse) {
     let errMsg = '';
     if (err.error instanceof ErrorEvent) {

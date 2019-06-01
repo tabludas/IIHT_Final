@@ -43,9 +43,9 @@ public class Project extends BaseModel {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    /*@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "Project_ID")
-    private Set<PMTask> pmTasks;
+    private Set<PMTask> pmTasks;*/
 
     public Integer getProjectId() {
         return projectId;
@@ -103,12 +103,12 @@ public class Project extends BaseModel {
         this.user = user;
     }
 
-    public Set<PMTask> getPmTasks() {
+   /* public Set<PMTask> getPmTasks() {
         return pmTasks;
     }
 
     public void setPmTasks(Set<PMTask> pmTasks) {
         this.pmTasks = pmTasks;
-    }
+    }*/
 
 }

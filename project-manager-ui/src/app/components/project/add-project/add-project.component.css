@@ -1,5 +1,5 @@
 .button.buttonSearch {
-    background-color: rgb(106, 110, 106); /* Green */
+    background-color: rgb(106, 110, 106);
     border: none;
     color: white;
     padding: 12px;
@@ -10,9 +10,9 @@
     margin: 1px 1px 1px 1px;
     cursor: pointer;
     border-radius: 50%;
-  }
+  }  
   
-   .form-group.required .col-form-label:after {
+  .form-group.required .col-form-label:after {
     content:"*";
     color:red;
   }

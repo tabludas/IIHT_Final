@@ -1,6 +1,7 @@
 package com.cts.projectmanagerservice.service;
 
 import com.cts.projectmanagerservice.exception.ProjectManagerException;
+import com.cts.projectmanagerservice.model.PMParentTask;
 import com.cts.projectmanagerservice.model.PMTask;
 import com.cts.projectmanagerservice.model.Project;
 import com.cts.projectmanagerservice.model.User;
@@ -22,4 +23,7 @@ public interface ProjectManagerService {
     List<User> getUsers() throws ProjectManagerException;
 
     List<Project> getProjects() throws ProjectManagerException;
+
+    List<PMParentTask> getParentTasks() throws ProjectManagerException;
+
 }
