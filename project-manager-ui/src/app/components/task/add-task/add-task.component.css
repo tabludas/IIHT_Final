@@ -12,6 +12,10 @@
     border-radius: 50%;
   }
   
+  input[type="button"]:disabled {
+    background-color:#b1b8b7;
+  }
+  
    .form-group.required .col-form-label:after {
     content:"*";
     color:red;

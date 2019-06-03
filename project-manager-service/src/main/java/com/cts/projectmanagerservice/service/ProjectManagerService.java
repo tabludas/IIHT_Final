@@ -17,13 +17,11 @@ public interface ProjectManagerService {
 
     List<PMTask> getTasks() throws ProjectManagerException;
 
-    void deleteTask(final PMTask pmTask) throws ProjectManagerException;
-
-
     List<User> getUsers() throws ProjectManagerException;
 
     List<Project> getProjects() throws ProjectManagerException;
 
     List<PMParentTask> getParentTasks() throws ProjectManagerException;
 
+    void deleteUser(User user) throws ProjectManagerException;;
 }

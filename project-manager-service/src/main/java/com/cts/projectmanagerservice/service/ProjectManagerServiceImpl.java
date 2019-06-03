@@ -76,9 +76,9 @@ public class ProjectManagerServiceImpl implements ProjectManagerService {
     }
 
     @Override
-    public void deleteTask(final PMTask pmTask) throws ProjectManagerException {
-        logger.info("Enter into ProjectManagerServiceImpl: deleteTask()--> " + pmTask);
-        projectManagerTaskRepository.delete(pmTask);
+    public void deleteUser(final User user) throws ProjectManagerException {
+        logger.info("Enter into ProjectManagerServiceImpl: deleteTask()--> " + user);
+        projectManagerUserRepository.delete(user);
     }
 
 

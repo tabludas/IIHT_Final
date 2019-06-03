@@ -87,6 +87,25 @@ public class ProjectManagerController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    //http://localhost:8086/api/projectmanager/deleteUser
+    @PostMapping(path = "deleteUser")
+    public ResponseEntity<Result> deleteUser(@RequestBody User user) {
+        logger.info("Enter into ProjectManagerController: deleteUser()-> " + user);
+
+        Result<String> result = new Result<String>();
+        try {
+            projectManagerService.deleteUser(user);
+            result.setData("Success");
+            result.setSuccess(true);
+        } catch (Exception ex) {
+            result.setData("Failure");
+            ProjectManagerException pe = populateProjectManagerException(result, ex);
+            throw pe;
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
 
     //http://localhost:8086/api/projectmanager/getTasks
     @GetMapping(path = "getTasks", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -168,16 +187,6 @@ public class ProjectManagerController {
         logger.error("*******ERROR********** " + er);
         return pe;
     }
-
-    //http://localhost:8086/api/projectmanager/deleteTask
-    /*@DeleteMapping(path = "deleteTask")
-    public ResponseEntity<String> deleteTask(@RequestBody PMTask pmTask) {
-        logger.info("Enter into ProjectManagerController: saveTask()-> " + pmTask);
-
-        projectManagerService.deleteTask(pmTask);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Success");
-    }*/
 
 
 }

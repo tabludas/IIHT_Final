@@ -8,4 +8,5 @@ export class ProjectConstant {
     public static SAVE_PROJECT: string = '/server/api/projectmanager/saveProject';
     public static SAVE_TASK: string = '/server/api/projectmanager/saveTask';
     public static SAVE_USER: string = '/server/api/projectmanager/saveUser';
+    public static DELETE_USER: string = '/server/api/projectmanager/deleteUser';
 }

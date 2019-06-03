@@ -75,6 +75,16 @@ public class ProjectManagerControllerTest {
         verify(projectManagerService, times(1)).createOrUpdateUser(any(User.class));
     }
 
+    @Test
+    public void deleteUser() throws Exception {
+        User user = getUser();
+
+        assertThat(projectManagerController.deleteUser(user), Matchers.any(ResponseEntity.class));
+        verify(projectManagerService).deleteUser(userArgument.capture());
+        verify(projectManagerService, times(1)).deleteUser(any(User.class));
+
+    }
+
 
     @Test
     public void getTasks() throws Exception {
@@ -119,10 +129,6 @@ public class ProjectManagerControllerTest {
         ResponseEntity<Result> res = projectManagerController.getParentTasks();
         assertSame(expectedParentTasks, res.getBody().getData());
     }
-
-    /*@Test
-    public void deleteTask() throws Exception {
-    }*/
 
     private User getUser() {
         User user = new User();

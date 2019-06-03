@@ -1,3 +1,148 @@
-<p>
-  add-user works!
-</p>
+<form class="needs-validation" novalidate>
+
+  <div class="form-group row required" style="margin-left:1%">
+    <div class="col-md-1">
+      <label for="firstName" class="col-sm-2 col-form-label col-form-label-lg" style="padding-left:.1%;white-space:nowrap">First
+        Name:</label>
+    </div>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.firstName">
+    </div>
+  </div>
+
+  <div class="form-group row required" style="margin-left:1%">
+    <div class="col-md-1">
+      <label for="lastName" class="col-sm-2 col-form-label col-form-label-lg" style="padding-left:.1%;white-space:nowrap">Last
+        Name:</label>
+    </div>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="lastName" name="firstName" [(ngModel)]="user.lastName">
+    </div>
+  </div>
+
+  <div class="form-group row" style="margin-left:.8%">
+    <div class="col-md-1">
+      <label for="employeeId" class="col-sm-2 col-form-label col-form-label-lg" style="padding-left:.1%;white-space:nowrap">Employee
+        ID:</label>
+    </div>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="employeeId" name="employeeId" [(ngModel)]="user.empId" style="margin-left:1%">
+    </div>
+  </div>
+
+  <div class="form-group row" style="margin-left:1%">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-2" style="padding-left:10%;padding-right:1%">
+      <button type="button" id="add" class="btn btn-secondary btn-sm"
+        [disabled]="!(user.firstName && user.lastName && user.empId)" (click)="saveOrUpdateUser()" style="width:100%">Add</button>
+    </div>
+    <div class="col-md-3" style="padding-left:0%;padding-right:1%">
+      <button type="button" id="reset" class="btn btn-secondary btn-sm" style="width:25%" (click)="reset()">Reset</button>
+    </div>
+  </div>
+
+</form>
+
+<div class="col-md-6" style="margin-left:1%">
+  <hr style="border:1px solid#7f797961"/>
+</div>
+
+<div class="row" style="margin-left:.1%">
+  <div class="col-md-1">
+    <label for="Search" class="col-sm-1 col-form-label col-form-label-lg">Search</label>
+  </div>
+  <div class="col-md-2">
+    <input type="text" name="userSearchValue" class="form-control" id="userSearchValue" [(ngModel)]="userSearchValue">
+  </div>
+  <div class="col-md-7">
+    <label for="sort" class="col-sm-1 col-form-label col-form-label-lg">Sort:</label>
+    <span>
+      <button type="button" id="firstName" class="btn btn-secondary btn-sm" style="margin-left:2%"
+      (click)="sortByFirstName()">First Name</button>
+    </span>
+    <span>
+      <button type="button" id="lastName" class="btn btn-secondary btn-sm" style="margin-left:2%"
+      (click)="sortByLastName()">Last Name</button>
+    </span>
+    <span>
+      <button type="button" id="id" class="btn btn-secondary btn-sm" style="margin-left:2%"
+      (click)="sortById()">Id</button>
+    </span>
+  </div>
+ 
+</div>
+
+<div *ngFor="let user of filteredUsers;let i=index">
+  <div class="col-md-6" style="margin-left:1%">
+    <hr style="border-top: dotted 1px;" />
+  </div>
+  <div class="row" style="margin-left:1%">
+    <div class="col-md-4">
+      <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.firstName" readonly>
+    </div>
+    <div class="col-md-2" style="padding-left: 10%">
+      <button type="button" id="add" class="btn btn-secondary btn-sm" (click)="openUserMdal(template,i)" style="width: 100%;padding-left:10%">Edit</button>
+    </div>
+  </div>
+  <div class="row" style="margin-left:1%">
+      <div class="col-md-4">
+        <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName" readonly>
+      </div>
+      <div class="col-md-2" style="padding-left: 10%">
+          <button type="button" id="add" class="btn btn-secondary btn-sm" (click)="deleteUser(i)" style="width: 100%">Delete</button>
+      </div>
+  </div>
+  <div class="row" style="margin-left:1%">
+    <div class="col-md-4">
+      <input type="text" class="form-control" id="employeeId" name="employeeId" [(ngModel)]="user.empId" readonly>
+    </div>    
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Update User</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeUserModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="width:500px;height:500px">
+    
+    <div class="form-group row">
+      <div class="col-md-2">
+        <label for="name" class="col-form-label-lg" style="white-space:nowrap">First Name:</label>
+      </div>
+      <div class="col-md-7" style="margin-left:10%">
+        <input type="text" name="firstName2" class="form-control" id="firstName2" 
+        [(ngModel)]="filteredUsers[index].firstName" />
+      </div>
+    </div>
+    <div class="form-group row">  
+      <div class="col-md-2">
+        <label for="name" class="col-form-label-lg" style="white-space:nowrap">Last Name:</label>
+      </div>
+      <div class="col-md-7" style="margin-left:10%">
+        <input type="text" name="lastName2" class="form-control" id="lastName2" 
+        [(ngModel)]="filteredUsers[index].lastName" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-2">
+        <label for="empId" class="col-form-label-lg" style="white-space:nowrap">Emp ID:</label>
+      </div>
+      <div class="col-md-7" style="margin-left:10%">
+        <input type="text" name="empId2" class="form-control" id="empId2"  [(ngModel)]="filteredUsers[index].empId">
+      </div>
+    </div> 
+    
+    <div class="form-group row">
+      <div class="col-sm-6"></div>
+        <button type="button" class="btn btn-secondary btn-sm" style="margin:10px"
+          [disabled]="!(filteredUsers[index].firstName && filteredUsers[index].lastName && filteredUsers[index].empId)"
+          (click)="updateUser(index)">Update</button>
+        <button type="button" class="btn btn-secondary btn-sm" style="margin:10px" (click)="closeUserModal()">Close</button>
+      <div class="col-sm-2"></div>
+    </div>
+  </div>
+</ng-template>

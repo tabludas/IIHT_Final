@@ -33,16 +33,16 @@ export class ProjectService {
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(ProjectConstant.FETCH_USERS).pipe(tap((data: Result) => 
-      console.log("Service layer-> "+data)),
+    console.log("Service layer-> "+JSON.stringify(data)),
       catchError(this.handleError)
-    );
+    ));
   }
 
   getParentTasks(): Observable<PmParentTask[]> {
     return this.http.get<PmParentTask[]>(ProjectConstant.FETCH_PARENT_TASKS).pipe(tap((data: Result) => 
-      console.log("Service layer-> "+data)),
+      console.log("Service layer-> "+JSON.stringify(data)),
       catchError(this.handleError)
-    );
+    ));
   }
 
   saveOrUpdateProject(project: Project): Observable<any> {
@@ -58,6 +58,23 @@ export class ProjectService {
       catchError(this.handleError)
     );
   }
+
+  saveOrUpdateUser(user: User): Observable<any> {
+    return this.http.post<User>(ProjectConstant.SAVE_USER, user, httpOptions).pipe(tap((data: Result) =>
+      console.log("Service layer-> "+data)),
+      catchError(this.handleError)
+    );
+  }
+
+  deleteUser(user: User): Observable<any> {
+    return this.http.post<User>(ProjectConstant.DELETE_USER, user, httpOptions).pipe(tap((data: Result) =>
+      console.log("Service layer-> "+data)),
+      catchError(this.handleError)
+    );
+  }
+  
+
+
 
 
   private handleError(err: HttpErrorResponse) {

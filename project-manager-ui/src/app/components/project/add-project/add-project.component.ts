@@ -81,9 +81,9 @@ export class AddProjectComponent implements OnInit {
   saveOrUpdateProject(): any {
     //alert(JSON.stringify(this.project));
     console.log("Project---> "+JSON.stringify(this.project));
-    if (!this.validateData(this.project)) {
+    /*if (!this.validateData(this.project)) {
       return;
-    }
+    }*/
     //alert(JSON.stringify(this.project));
     this.projectService.saveOrUpdateProject(this.project).subscribe((response: any) => {       
       if(!this.filteredData.some(project=>project.projectId===this.project.projectId)){
@@ -167,7 +167,7 @@ export class AddProjectComponent implements OnInit {
   sortByCompletion(): void {
     this.filteredData.sort((a: Project, b: Project) => {
       let value1: string = a.projectCompleted.toLocaleLowerCase();
-      let value2: string = b.projectCompleted.toLocaleLowerCase();;
+      let value2: string = b.projectCompleted.toLocaleLowerCase();
       if (value1 < value2) return -1;
       if (value1 > value2) return 1;
       return 0;
@@ -211,22 +211,16 @@ export class AddProjectComponent implements OnInit {
     this.project.user = new User();    
   }
 
-  private validateData(project: Project): boolean {
-    let startDate = this.project.startDate;
-    let endDate = this.project.endDate;
-    if (!startDate && !endDate) {
-      return false;
-    }
-    if (new Date(startDate) >= new Date(endDate)) {
-      return false;
-    }
-    if (!this.project.user) {
-      return false;
-    }
-    if (!this.project.projectName) {
-      return false;
-    }
-    return true;
+  validateData(project: Project): boolean {
+    let startDateStr = this.project.startDate;
+    let endDateStr = this.project.endDate;
+    let startDate:Date=new Date(startDateStr);
+    let endDate:Date=new Date(endDateStr);
+    let flag:boolean=true;
+    if (startDate && endDate && this.project.user.firstName && this.project.user.lastName && this.project.projectName && endDate >= startDate){
+      flag=false;
+    }   
+    return flag;
   }
 
   suspend(i: number): void {

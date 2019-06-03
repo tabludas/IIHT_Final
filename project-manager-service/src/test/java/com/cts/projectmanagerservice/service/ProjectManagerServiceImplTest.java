@@ -76,6 +76,13 @@ public class ProjectManagerServiceImplTest {
     }
 
     @Test
+    public void deleteUser() throws Exception {
+        User user = getUser();
+        projectManagerService.deleteUser(user);
+        verify(projectManagerUserRepository, times(1)).delete(userArgument.capture());
+    }
+
+    @Test
     public void getTasks() throws Exception {
         List<PMTask> expectedPmTasks = new ArrayList<PMTask>();
         PMTask pmTask = getPmTask();
@@ -119,9 +126,6 @@ public class ProjectManagerServiceImplTest {
         assertSame(expectedParentTasks, actualParentTasks);
     }
 
-   /* @Test
-    public void deleteTask() throws Exception {
-    }*/
 
     private User getUser() {
         User user = new User();

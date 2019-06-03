@@ -31,7 +31,7 @@ export class AddTaskComponent implements OnInit {
   userModalRef: BsModalRef;
 
   index: number;
-  errorMsg: String;  
+  errorMsg: String;
 
   private _projectSearchValue: string = "";
   private _parentTaskSearchValue: string = "";
@@ -76,10 +76,10 @@ export class AddTaskComponent implements OnInit {
 
   }
 
-  saveOrUpdateTask(): any {    
-    console.log("Task---> "+JSON.stringify(this.task));
-    this.projectService.saveOrUpdateTask(this.task).subscribe((response: any) => {    
-        console.log("Response-> "+response);
+  saveOrUpdateTask(): any {
+    console.log("Task---> " + JSON.stringify(this.task));
+    this.projectService.saveOrUpdateTask(this.task).subscribe((response: any) => {
+      console.log("Response-> " + response);
     },
       error => this.errorMsg = <any>error
     );
@@ -185,7 +185,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   onDrag(event: any): void {
-    this.task.priority=event.target.value;
+    this.task.priority = event.target.value;
   }
 
   reset(): void {
@@ -198,15 +198,17 @@ export class AddTaskComponent implements OnInit {
   }
 
   validateDate(): boolean {
-
-    let startDate = this.task.startDate;
-    let endDate = this.task.endDate;
-    if (new Date(startDate) >= new Date(endDate)) {
-      return false;
+    let startDateStr = this.task.startDate;
+    let endDateStr = this.task.endDate;
+    let startDate: Date = new Date(startDateStr);
+    let endDate: Date = new Date(endDateStr);
+    let flag: boolean = true;
+    if (endDate >= startDate) {
+      flag = false;
     }
-
-    return true;
+    return flag;
   }
+}
 
 
 }
