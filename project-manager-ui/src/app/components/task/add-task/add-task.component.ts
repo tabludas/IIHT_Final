@@ -171,7 +171,7 @@ export class AddTaskComponent implements OnInit {
   selectUser(i: number): void {
     let user = this.filteredUsers[i];
     this.task.user = user;
-    this.task.user.fullName = user.firstName + " " + user.lastName
+    this.task.user.fullName = user.firstName + " " + user.lastName;
     this.closeUserModal();
   }
 
@@ -202,13 +202,13 @@ export class AddTaskComponent implements OnInit {
     let endDateStr = this.task.endDate;
     let startDate: Date = new Date(startDateStr);
     let endDate: Date = new Date(endDateStr);
-    let flag: boolean = true;
-    if (endDate >= startDate) {
-      flag = false;
+    let flag: boolean = false;
+    if (endDate.getTime() >= startDate.getTime()) {
+      flag = true;
     }
     return flag;
   }
 }
 
 
-}
+

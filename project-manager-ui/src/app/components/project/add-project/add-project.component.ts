@@ -13,8 +13,8 @@ import { Result } from 'src/app/model/result';
   styleUrls: ['./add-project.component.css']
 })
 export class AddProjectComponent implements OnInit {
-  modalRef: BsModalRef;
-  modalRef2: BsModalRef;
+  userModalRef: BsModalRef;
+  projectModalRef: BsModalRef;
   project: Project;
   currentDate: Date;
   nextDate: Date;
@@ -25,7 +25,7 @@ export class AddProjectComponent implements OnInit {
   users: User[];
   userFilteredData: User[];
   user: User;
-  errorMsg: String;
+  errorMsg: String;  
 
   _searchValue: string = "";
   _userSearchValue: string = "";
@@ -53,8 +53,8 @@ export class AddProjectComponent implements OnInit {
   constructor(private modalService: BsModalService, private projectService: ProjectService) {
     this.project = new Project();
     this.project.priority = 0;
-    this.project.noOfTask=1;
-    this.project.user = new User();
+    this.project.noOfTask = 1;
+    this.project.user = new User();      
   }
 
   getProjects(): any {
@@ -67,38 +67,37 @@ export class AddProjectComponent implements OnInit {
     );
   }
 
-  getUsers(template: TemplateRef<any>): any {
+  getUsers(): any {
     let obs = this.projectService.getUsers();
     obs.subscribe((response: any) => {
       this.users = response ? response.data : null;
       this.userFilteredData = response ? response.data : null;
-      this.modalRef = this.modalService.show(template);
+      
     },
       error => this.errorMsg = <any>error
     );
   }
 
-  saveOrUpdateProject(): any {
-    //alert(JSON.stringify(this.project));
-    console.log("Project---> "+JSON.stringify(this.project));
-    /*if (!this.validateData(this.project)) {
-      return;
-    }*/
-    //alert(JSON.stringify(this.project));
-    this.projectService.saveOrUpdateProject(this.project).subscribe((response: any) => {       
-      if(!this.filteredData.some(project=>project.projectId===this.project.projectId)){
-        this.filteredData.push(this.project);
+  saveOrUpdateProject(): any {  
+    this.projectService.saveOrUpdateProject(this.project).subscribe((response: any) => {      
+      this.reset();
+    },
+      error => this.errorMsg = <any>error
+    );
+    
+  }
+
+  updateProject(i: number): void {    
+    this.projectService.saveOrUpdateProject(this.filteredData[i]).subscribe((response: any) => {
+      if (!this.filteredData.some(project => project.projectId === this.filteredData[i].projectId)) {
+        this.filteredData.push(this.filteredData[i]);
       }
-        
+      this.closeProjectModal();
+
     },
       error => this.errorMsg = <any>error
     );
-  }
-
-  updateProject(i: number): void {
-    this.project=this.filteredData[i];
-    this.saveOrUpdateProject();
-    this.closeProjectModal();
+   
   }
 
   performProjectFilter(filterValue: string): Project[] {
@@ -143,7 +142,7 @@ export class AddProjectComponent implements OnInit {
       if (date1 > date2) return -1;
       if (date1 < date2) return 1;
       return 0;
-    });    
+    });
   }
 
   sortByEndDate(): void {
@@ -153,7 +152,7 @@ export class AddProjectComponent implements OnInit {
       if (date1 > date2) return -1;
       if (date1 < date2) return 1;
       return 0;
-    });    
+    });
   }
 
   sortByPriority(): void {
@@ -175,58 +174,63 @@ export class AddProjectComponent implements OnInit {
   }
 
   openUserModal(template: TemplateRef<any>, i: number) {
+    this.getUsers();
     if (this.filteredData[i]) {
       this.project = this.filteredData[i];
     }
-    this.getUsers(template);
+    
+    this.userModalRef = this.modalService.show(template);
   }
 
   openProjectModal(template: TemplateRef<any>, i) {
     this.index = i;
-    if (!this.filteredData[i].user) {
-      this.filteredData[i].user = new User();
-    }
-    this.modalRef2 = this.modalService.show(template);
+    this.project=this.filteredData[i];    
+    this.projectModalRef = this.modalService.show(template);
   }
 
   closeUserModal() {
-    this.modalRef.hide();
+    this.userModalRef.hide();
   }
 
   closeProjectModal() {
-    this.modalRef2.hide();
+    this.reset();
+    this.getProjects();
+    this.projectModalRef.hide();
   }
 
   selectUser(i: number): void {
-    this.project.user = this.userFilteredData[i];   
-    //alert(JSON.stringify(this.project));
-    this.modalRef.hide();
+    let user = this.userFilteredData[i];
+    this.project.user = user;
+    this.project.user.fullName = user.firstName + " " + user.lastName;
+    this.userModalRef.hide();
   }
 
-  reset(): void {
+  reset(): void {   
     this.project.endDate = '';
+    this.project.projectId = '';
     this.project.startDate = '';
     this.project.priority = 0;
     this.project.projectName = '';
-    this.project.user = new User();    
+    this.project.user = new User();
+    this.getProjects();
   }
 
   validateData(project: Project): boolean {
     let startDateStr = this.project.startDate;
     let endDateStr = this.project.endDate;
-    let startDate:Date=new Date(startDateStr);
-    let endDate:Date=new Date(endDateStr);
-    let flag:boolean=true;
-    if (startDate && endDate && this.project.user.firstName && this.project.user.lastName && this.project.projectName && endDate >= startDate){
-      flag=false;
-    }   
+    let startDate: Date = new Date(startDateStr);
+    let endDate: Date = new Date(endDateStr);
+    let flag: boolean = true;
+    if (startDate && endDate && this.project.user.firstName && this.project.user.lastName && this.project.projectName && endDate.getTime() >= startDate.getTime()) {
+      flag = false;
+    }
     return flag;
   }
 
   suspend(i: number): void {
-    this.project=this.filteredData[i];
-    this.project.projectCompleted="Y";
-    this.saveOrUpdateProject();
+    this.project = this.filteredData[i];
+    this.project.projectCompleted = "Y";
+    this.updateProject(i);
   }
 
 }

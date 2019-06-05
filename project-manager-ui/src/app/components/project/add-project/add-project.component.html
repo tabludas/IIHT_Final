@@ -5,9 +5,8 @@
         <label for="projectName" class="col-sm-1 col-form-label col-form-label-lg">Project:</label>
       </div>
       <div class="col-md-6">
-        <input type="text" name="projectName" class="form-control" id="projectName" [(ngModel)]="project.projectName">
-        <div class="invalid-feedback">Project is Mandatory Field</div>
-      </div>
+        <input type="text" name="projectName" class="form-control" id="projectName" [(ngModel)]="project.projectName">       
+      </div>     
     </div>
 
     <div class="form-group row" style="margin-left:10%">
@@ -43,7 +42,7 @@
       </div>
       <div class="col-md-5">
         <input type="text" name="managerName" class="form-control" id="managerName"
-          value="{{project.user.firstName}} {{project.user.lastName}}" readonly/>
+          value="{{project.user.fullName}}" readonly>
       </div>
       <div class="col-md-1">
         <button type="button" id="search" class="button buttonSearch" (click)="openUserModal(template1)">Serach</button>
@@ -166,11 +165,11 @@
     <div *ngFor="let user of userFilteredData;let i = index">
       <div class="form-group row" id={{i}}>
         <div class="col-md-6">
-          <input type="text" name="firstName" class="form-control" id="firstName" disabled=true
+          <input type="text" name="firstName" class="form-control" id="firstName" readonly
             value="{{user.firstName}} {{user.lastName}}" />
         </div>
         <div class="col-md-3">
-          <input type="text" name="empId" class="form-control" id="empId" disabled=true value={{user.empId}} />
+          <input type="text" name="empId" class="form-control" id="empId" disabled value={{user.empId}} />
         </div>
 
         <div class="col-md-3" style="padding:1%">
@@ -205,7 +204,7 @@
 
       <div class="form-group row">
         <div class="col-md-3" style="padding: 0%;margin: 0%">
-          <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)" style="margin-left: 3%">
+          <input class="form-check-input" type="checkbox" id="defaultCheck1" (change)="onChecboxSelect($event)" style="margin-left: 3%" >
           <span style="margin-left: 15%">Set Start and End Date</span> 
         </div>
         <div class="col-md-4" style="margin-left: 5%" >
@@ -235,7 +234,7 @@
         </div>
         <div class="col-md-6" >
           <input type="text" name="managerName2" class="form-control" id="managerName2"
-            value="{{filteredData[index].user.firstName}} {{filteredData[index].user.lastName}}" />
+          value="{{project.user.firstName}} {{project.user.lastName}}" readonly>
         </div>
         <div class="col-md-1" style="margin-left: 5%">
           <button type="button" id="search2" class="button buttonSearch" (click)="openUserModal(template1,index)">Serach</button>
@@ -243,9 +242,9 @@
       </div>
 
       <div class="form-group row">
-        <div class="col-sm-3"></div>
+        <div class="col-sm-5"></div>
         <button type="button" class="btn btn-secondary btn-sm" style="margin:10px"
-          [disabled]="(projects[index].projectName==null ||projects[index].projectName=='' || projects[index].startDate==null|| projects[index].startDate==''|| projects[index].endDate==null|| projects[index].endDate=='')"
+          [disabled]="validateData()"
           (click)="updateProject(index)">Update</button>
         <button type="button" class="btn btn-secondary btn-sm" style="margin:10px" (click)="closeProjectModal()">Close</button>
         <div class="col-sm-2"></div>

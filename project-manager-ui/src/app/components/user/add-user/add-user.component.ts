@@ -33,10 +33,6 @@ export class AddUserComponent implements OnInit {
   saveOrUpdateUser(): any {
     console.log("User---> " + JSON.stringify(this.user));
     this.projectService.saveOrUpdateUser(this.user).subscribe((response: any) => {
-      console.log("Response-> " + response);
-      if (!this.filteredUsers.some(user => user.userId === this.user.userId)) {
-        this.filteredUsers.push(this.user);
-      }
     },
       error => this.errorMsg = <any>error
     ); 
@@ -64,8 +60,8 @@ export class AddUserComponent implements OnInit {
   updateUser(i: number): void {
     this.projectService.saveOrUpdateUser(this.filteredUsers[i]).subscribe((response: any) => {
       console.log("Response-> " + response);
-      if (!this.filteredUsers.some(user => user.userId === this.user.userId)) {
-        this.filteredUsers.push(this.user);
+      if (!this.filteredUsers.some(user => user.userId === this.filteredUsers[i].userId)) {
+        this.filteredUsers.push(this.filteredUsers[i]);
       }
     },
       error => this.errorMsg = <any>error

@@ -7,7 +7,7 @@ export class Project {
     priority: number;
     startDate: string;
     endDate: string;
-    projectCompleted: string;
+    projectCompleted: string="N";
     user: User;
     pmTasks: PmTask[];
     noOfTask:number;
