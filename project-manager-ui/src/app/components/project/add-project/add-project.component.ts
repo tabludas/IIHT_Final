@@ -78,7 +78,8 @@ export class AddProjectComponent implements OnInit {
     );
   }
 
-  saveOrUpdateProject(): any {  
+  saveOrUpdateProject(): any {
+    console.log("Project ---->"+JSON.stringify(this.project));
     this.projectService.saveOrUpdateProject(this.project).subscribe((response: any) => {      
       this.reset();
     },

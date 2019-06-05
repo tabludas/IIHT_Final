@@ -33,10 +33,41 @@ export class AddUserComponent implements OnInit {
   saveOrUpdateUser(): any {
     console.log("User---> " + JSON.stringify(this.user));
     this.projectService.saveOrUpdateUser(this.user).subscribe((response: any) => {
+      //this.filteredUsers.push(this.user);
+      this.getUsers();
+      this.reset();
+
     },
       error => this.errorMsg = <any>error
-    ); 
-    this.getUsers();
+    );
+
+
+
+  }
+
+  updateUser(i: number): void {
+    this.projectService.saveOrUpdateUser(this.filteredUsers[i]).subscribe((response: any) => {
+      this.closeUserModal();
+    },
+      error => this.errorMsg = <any>error
+    );
+
+  }
+
+  deleteUser(i: number): void {
+    /*this.projectService.deleteUser(this.filteredUsers[i]).subscribe((response: any) => {
+      console.log("Response-> " + response);
+      const result=this.filteredUsers.filter(item=>item.userId!=this.filteredUsers[i].userId);
+      this.filteredUsers=result;
+    },
+      error => this.errorMsg = <any>error
+    );*/
+    this.filteredUsers[i].active = "Y";
+    this.projectService.saveOrUpdateUser(this.filteredUsers[i]).subscribe((response: any) => {
+      this.getUsers();
+    },
+      error => this.errorMsg = <any>error
+    );
   }
 
   getUsers(): any {
@@ -57,28 +88,6 @@ export class AddUserComponent implements OnInit {
     return this._userSearchValue;
   }
 
-  updateUser(i: number): void {
-    this.projectService.saveOrUpdateUser(this.filteredUsers[i]).subscribe((response: any) => {
-      console.log("Response-> " + response);
-      if (!this.filteredUsers.some(user => user.userId === this.filteredUsers[i].userId)) {
-        this.filteredUsers.push(this.filteredUsers[i]);
-      }
-    },
-      error => this.errorMsg = <any>error
-    );    
-    this.closeUserModal();
-  }
-
-  deleteUser(i: number): void {
-    this.projectService.deleteUser(this.filteredUsers[i]).subscribe((response: any) => {
-      console.log("Response-> " + response);
-      const result=this.filteredUsers.filter(item=>item.userId!=this.filteredUsers[i].userId);
-      this.filteredUsers=result;
-    },
-      error => this.errorMsg = <any>error
-    );    
-  }
-
   performUserFilter(filterValue: string): User[] {
     filterValue = filterValue.toLocaleLowerCase();
     return this.users.filter((user: User) => user.firstName.toLocaleLowerCase().indexOf(filterValue) !== -1);
@@ -96,27 +105,27 @@ export class AddUserComponent implements OnInit {
 
   sortByFirstName(): void {
     this.filteredUsers.sort((a: User, b: User) => {
-    let value1: string = a.firstName.toLocaleLowerCase();
-    let value2: string = b.firstName.toLocaleLowerCase();
-    return value1.localeCompare(value2);
+      let value1: string = a.firstName.toLocaleLowerCase();
+      let value2: string = b.firstName.toLocaleLowerCase();
+      return value1.localeCompare(value2);
     });
   }
 
   sortByLastName(): void {
     this.filteredUsers.sort((a: User, b: User) => {
-    let value1: string = a.lastName.toLocaleLowerCase();
-    let value2: string = b.lastName.toLocaleLowerCase();
-    return value1.localeCompare(value2);
+      let value1: string = a.lastName.toLocaleLowerCase();
+      let value2: string = b.lastName.toLocaleLowerCase();
+      return value1.localeCompare(value2);
     });
   }
 
   sortById(): void {
     this.filteredUsers.sort((a: User, b: User) => {
-    let value1: string = a.empId.toLocaleLowerCase();
-    let value2: string = b.empId.toLocaleLowerCase();
-    return value1.localeCompare(value2);
+      let value1: string = a.empId.toLocaleLowerCase();
+      let value2: string = b.empId.toLocaleLowerCase();
+      return value1.localeCompare(value2);
     });
-  }  
+  }
 
   selectUser(i: number): void {
 
@@ -125,6 +134,7 @@ export class AddUserComponent implements OnInit {
 
   reset(): void {
     this.user.firstName = "";
+    this.user.userId = "";
     this.user.lastName = "";
     this.user.empId = "";
   }

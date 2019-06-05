@@ -1,5 +1,7 @@
 package com.cts.projectmanagerservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -22,11 +24,15 @@ public class User extends BaseModel {
     @Column(name = "Emp_ID", nullable = false)
     private String empId;
 
-    /*@OneToOne
-    private PMTask pmTask;
+    private String active;
+
+    /*@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "Project_ID")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Project project;
 
     @OneToOne
-    private Project project;*/
+    private PMTask pmTask;*/
 
     public Integer getUserId() {
         return userId;
@@ -60,19 +66,29 @@ public class User extends BaseModel {
         this.empId = empId;
     }
 
-   /* public PMTask getPmTask() {
-        return pmTask;
+    public String getActive() {
+        return active;
     }
 
-    public void setPmTask(PMTask pmTask) {
-        this.pmTask = pmTask;
+    public void setActive(String active) {
+        this.active = active;
     }
 
-    public Project getProject() {
+  /*public Project getProject() {
         return project;
     }
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public PMTask getPmTask() {
+        return pmTask;
+    }
+
+    public void setPmTask(PMTask pmTask) {
+        this.pmTask = pmTask;
     }*/
+
+
 }

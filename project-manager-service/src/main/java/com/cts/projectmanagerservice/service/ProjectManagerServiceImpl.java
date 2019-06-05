@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectManagerServiceImpl implements ProjectManagerService {
@@ -60,7 +61,9 @@ public class ProjectManagerServiceImpl implements ProjectManagerService {
     @Override
     public List<User> getUsers() throws ProjectManagerException {
         logger.info("Enter into ProjectManagerServiceImpl: getUsers()");
-        return projectManagerUserRepository.findAll();
+        List<User> users=projectManagerUserRepository.findAll();
+        users=users.stream().filter(user->user.getActive().equals("N")).collect(Collectors.toList());
+        return users;
     }
 
     @Override

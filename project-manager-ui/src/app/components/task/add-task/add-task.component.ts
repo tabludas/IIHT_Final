@@ -79,7 +79,7 @@ export class AddTaskComponent implements OnInit {
   saveOrUpdateTask(): any {
     console.log("Task---> " + JSON.stringify(this.task));
     this.projectService.saveOrUpdateTask(this.task).subscribe((response: any) => {
-      console.log("Response-> " + response);
+      this.reset();
     },
       error => this.errorMsg = <any>error
     );

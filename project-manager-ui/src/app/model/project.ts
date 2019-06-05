@@ -8,8 +8,7 @@ export class Project {
     startDate: string;
     endDate: string;
     projectCompleted: string="N";
-    user: User;
-    pmTasks: PmTask[];
+    user: User;   
     noOfTask:number;
     
 }

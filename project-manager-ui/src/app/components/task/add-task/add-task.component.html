@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <div class="form-group row" style="margin-left:.1%">
+  <div class="form-group row required" style="margin-left:.1%">
     <div class="col-md-1">
       <label for="parentTask" class="col-sm-2 col-form-label col-form-label-lg" style="white-space:nowrap">Parent
         Task:</label>
@@ -97,7 +97,7 @@
     </div>
     <div class="col-md-2" style="padding-left: 10%">
       <button type="button" id="add" class="btn btn-secondary btn-sm"
-        [disabled]="!(task.taskName && task.startDate && task.endDate && task.project.projectName && task.user.fullName && validateDate())"
+        [disabled]="!(task.taskName && task.startDate && task.endDate && task.project.projectName && task.user.fullName && task.parentTask.parentTaskName && validateDate())"
         (click)="saveOrUpdateTask()">Add Task</button>
     </div>
     <div class="col-md-3">
@@ -129,28 +129,28 @@
       <div class="col-md-3">
         <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg">Project</label>
       </div>
-      <div class="col-md-3">
-        <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg" style="white-space:nowrap">Start
+      <div class="col-md-3" style="padding-right:20px;padding-left:5px" >
+        <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg" style="white-space:nowrap;padding-left:2px">Start
           Date</label>
       </div>
       <div class="col-md-3">
-        <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg" style="white-space:nowrap">End
+        <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg" style="white-space:nowrap;padding-left:2px">End
           Date</label>
       </div>
 
       <div *ngFor="let project of filteredProjects;let i = index">
         <div class="row" id={{i}}>
           <div class="col-md-3">
-            <input type="text" name="projectName" class="form-control" id="projectName" disabled=true
+            <input type="text" name="projectName" class="form-control" id="projectName" readonly
               value="{{project.projectName}}" style="margin-left:20%">
           </div>
-          <div class="col-md-3">
-            <input type="text" name="startDate" class="form-control" id="startDate" disabled=true
-              value="{{project.startDate}}" style="margin-left:20%">
+          <div class="col-md-3" style="margin-left:0%">
+            <input type="text" name="startDate" class="form-control" id="startDate" readonly
+              value="{{project.startDate}}" style="padding-right:3px;">
           </div>
           <div class="col-md-3">
-            <input type="text" name="endDate" class="form-control" id="endDate" disabled=true
-              value="{{project.endDate}}" style="margin-left:20%">
+            <input type="text" name="endDate" class="form-control" id="endDate" readonly
+              value="{{project.endDate}}" style="padding-right:3px;padding-left:2px">
           </div>
           <div class="col-md-3" style="padding:1%">
             <button type="button" id="select" class="btn btn-secondary btn-sm" (click)="selectProject(i)"

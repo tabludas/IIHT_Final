@@ -40,7 +40,8 @@ public class Project extends BaseModel {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "User_ID")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"},allowSetters = true)
+    @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
     private User user;
 
     /*@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
