@@ -95,13 +95,24 @@ public class ProjectManagerServiceImplTest {
 
     @Test
     public void getUsers() throws Exception {
-        List<User> expectedUsers = new ArrayList<User>();
-        User user = getUser();
-        expectedUsers.add(user);
+        List<User> allUsers = new ArrayList<User>();
+        User user1 = getUser();
 
-        when(projectManagerUserRepository.findAll()).thenReturn(expectedUsers);
+        User user2 = new User();
+        user2.setUserId(2);
+        user2.setFirstName("Sam");
+        user2.setLastName("Das");
+        user2.setActive("Y");
+
+        allUsers.add(user1);
+        allUsers.add(user2);
+
+        List<User> expectedUsers = new ArrayList<User>();
+        expectedUsers.add(user1);
+
+        when(projectManagerUserRepository.findAll()).thenReturn(allUsers);
         List<User> actualUsers = projectManagerService.getUsers();
-        assertSame(expectedUsers, actualUsers);
+        assertEquals(expectedUsers, actualUsers);
     }
 
     @Test
@@ -132,6 +143,7 @@ public class ProjectManagerServiceImplTest {
         user.setUserId(1);
         user.setFirstName("Ram");
         user.setLastName("Das");
+        user.setActive("N");
         return user;
     }
 

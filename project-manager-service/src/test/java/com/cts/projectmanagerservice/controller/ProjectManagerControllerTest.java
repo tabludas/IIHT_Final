@@ -105,7 +105,7 @@ public class ProjectManagerControllerTest {
 
         when(projectManagerService.getUsers()).thenReturn(expectedUsers);
         ResponseEntity<Result> res = projectManagerController.getUsers();
-        assertSame(expectedUsers, res.getBody().getData());
+        assertEquals(expectedUsers, res.getBody().getData());
     }
 
     @Test
@@ -135,6 +135,7 @@ public class ProjectManagerControllerTest {
         user.setUserId(1);
         user.setFirstName("Ram");
         user.setLastName("Das");
+        user.setActive("N");
         return user;
     }
 
