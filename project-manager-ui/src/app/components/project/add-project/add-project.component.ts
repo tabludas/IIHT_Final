@@ -6,6 +6,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { Result } from 'src/app/model/result';
+import { PmTask } from 'src/app/model/pm-task';
 
 @Component({
   selector: 'app-add-project',
@@ -25,6 +26,8 @@ export class AddProjectComponent implements OnInit {
   users: User[];
   userFilteredData: User[];
   user: User;
+  taskList: PmTask[];
+
   errorMsg: String;  
 
   _searchValue: string = "";
@@ -46,15 +49,25 @@ export class AddProjectComponent implements OnInit {
     return this._userSearchValue;
   }
 
-  ngOnInit() {
-    this.getProjects();
+  ngOnInit() {       
+    this.getTasks();
   }
 
   constructor(private modalService: BsModalService, private projectService: ProjectService) {
     this.project = new Project();
-    this.project.priority = 0;
     this.project.noOfTask = 1;
-    this.project.user = new User();      
+    this.project.user = new User();  
+         
+  }
+
+  getTasks(): any {
+    let obs = this.projectService.getTasks();
+    obs.subscribe((response: any) => {
+      this.taskList = response ? response.data : null; 
+      this.getProjects();    
+    },
+      error => this.errorMsg = <any>error
+    );
   }
 
   getProjects(): any {
@@ -62,6 +75,7 @@ export class AddProjectComponent implements OnInit {
     obs.subscribe((response: any) => {
       this.projects = response ? response.data : null;
       this.filteredData = response ? response.data : null;
+      this.maipulateProjectData(this.projects);
     },
       error => this.errorMsg = <any>error
     );
@@ -78,8 +92,7 @@ export class AddProjectComponent implements OnInit {
     );
   }
 
-  saveOrUpdateProject(): any {
-    console.log("Project ---->"+JSON.stringify(this.project));
+  saveOrUpdateProject(): any {    
     this.projectService.saveOrUpdateProject(this.project).subscribe((response: any) => {      
       this.reset();
     },
@@ -232,6 +245,15 @@ export class AddProjectComponent implements OnInit {
     this.project = this.filteredData[i];
     this.project.projectCompleted = "Y";
     this.updateProject(i);
+  }
+
+  maipulateProjectData(projects:Project[]):void{
+    let projectsWithTaskNo:Project[]=projects.map(project=>{
+      let filteredTasks=this.taskList.filter((task:PmTask)=>task.project.projectId===project.projectId);
+      project.noOfTask=filteredTasks?filteredTasks.length:0;
+      return project;
+    });
+    this.filteredData=projectsWithTaskNo;    
   }
 
 }

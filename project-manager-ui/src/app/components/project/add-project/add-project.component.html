@@ -106,7 +106,7 @@
       <div class="row">
         <div class="col-md-5" style="margin:4%">
           <label for="project" class="col-form-label-lg">No Of Tasks:</label>
-          <span style="margin: 3%">1</span>
+          <span style="margin: 3%">{{project.noOfTask}}</span>
         </div>
         <div class="col-md-5" style="padding:4%">
           <label for="project" class="col-sm-1 col-form-label col-form-label-lg">Completed:</label>
@@ -151,7 +151,7 @@
         <label for="Search" class="col-form-label-lg">Search</label>
       </div>
       <div class="col-md-6">
-        <input type="text" name="userSearchValue" class="form-control" [(ngModel)]="userSearchValue" />
+        <input type="text" name="userSearchValue" class="form-control" [(ngModel)]="userSearchValue" >
       </div>
     </div>
     <div class="form-group row">
@@ -187,18 +187,12 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body" style="width:500px;height:500px">
-    <div *ngIf="successMessage">
-      <div class="alert alert-success alert-dismissible">
-        <span>{{successMessage}}</span>
-      </div>
-    </div>
+  <div class="modal-body" style="width:500px;height:500px">    
     <form class="needs-validation" #addForm novalidate>
       <div class="form-group required row">
         <label for="projectName2" class="col-sm-3 col-form-label col-form-label-lg">Project:</label>
         <div class="col-md-9">
-          <input type="text" name="projectName2" class="form-control" id="projectName2" [(ngModel)]="filteredData[index].projectName">
-          <div class="invalid-feedback">Project is mandatory field</div>
+          <input type="text" name="projectName2" class="form-control" id="projectName2" [(ngModel)]="filteredData[index].projectName">          
         </div>
       </div>
 

@@ -1,0 +1,22 @@
+.form-group.required .col-form-label:after {
+    content:"*";
+    color:red;
+  }
+
+  .pd-90{
+      padding-left: 92%;
+  }
+
+  .button.buttonSearch {
+    background-color: rgb(106, 110, 106); /* Green */
+    border: none;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 1px 1px 1px 1px;
+    cursor: pointer;
+    border-radius: 50%;
+  }

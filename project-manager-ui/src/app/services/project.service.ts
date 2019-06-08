@@ -18,64 +18,72 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+
 export class ProjectService {
   url: string;
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+
+  }
 
   getProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(ProjectConstant.FETCH_PROJECTS).pipe(tap((data: Result) => 
-      console.log("Service layer-> "+data)),
+    return this.http.get<Project[]>(ProjectConstant.FETCH_PROJECTS).pipe(tap((data: Result) => {
+
+    },
       catchError(this.handleError)
-    );
+    ));
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(ProjectConstant.FETCH_USERS).pipe(tap((data: Result) => 
-    console.log("Service layer-> "+JSON.stringify(data)),
+    return this.http.get<User[]>(ProjectConstant.FETCH_USERS).pipe(tap((data: Result) =>
       catchError(this.handleError)
     ));
   }
 
   getParentTasks(): Observable<PmParentTask[]> {
-    return this.http.get<PmParentTask[]>(ProjectConstant.FETCH_PARENT_TASKS).pipe(tap((data: Result) => 
-      console.log("Service layer-> "+JSON.stringify(data)),
+    return this.http.get<PmParentTask[]>(ProjectConstant.FETCH_PARENT_TASKS).pipe(tap((data: Result) =>
+      catchError(this.handleError)
+    ));
+  }
+
+  getTasks(): Observable<PmTask[]> {
+    return this.http.get<PmTask[]>(ProjectConstant.FETCH_TASKS).pipe(tap((data: Result) => {
+
+    },
       catchError(this.handleError)
     ));
   }
 
   saveOrUpdateProject(project: Project): Observable<any> {
     return this.http.post<Project>(ProjectConstant.SAVE_PROJECT, project, httpOptions).pipe(tap((data: Result) =>
-      console.log("Service layer-> "+data)),
       catchError(this.handleError)
-    );
+    ));
   }
 
   saveOrUpdateTask(task: PmTask): Observable<any> {
     return this.http.post<PmTask>(ProjectConstant.SAVE_TASK, task, httpOptions).pipe(tap((data: Result) =>
-      console.log("Service layer-> "+data)),
       catchError(this.handleError)
-    );
+    ));
   }
 
   saveOrUpdateUser(user: User): Observable<any> {
     return this.http.post<User>(ProjectConstant.SAVE_USER, user, httpOptions).pipe(tap((data: Result) =>
-      console.log("Service layer-> "+data)),
       catchError(this.handleError)
-    );
+    ));
+  }
+
+  endTask(task: PmTask): Observable<any> {
+    return this.http.post<PmTask>(ProjectConstant.SAVE_TASK, task, httpOptions).pipe(tap((data: Result) => { },
+      catchError(this.handleError)
+    ));
   }
 
   deleteUser(user: User): Observable<any> {
     return this.http.post<User>(ProjectConstant.DELETE_USER, user, httpOptions).pipe(tap((data: Result) =>
-      console.log("Service layer-> "+data)),
       catchError(this.handleError)
-    );
+    ));
   }
-  
-
-
-
 
   private handleError(err: HttpErrorResponse) {
     let errMsg = '';

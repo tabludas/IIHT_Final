@@ -76,8 +76,7 @@ export class AddTaskComponent implements OnInit {
 
   }
 
-  saveOrUpdateTask(): any {
-    console.log("Task---> " + JSON.stringify(this.task));
+  saveOrUpdateTask(): any {    
     this.projectService.saveOrUpdateTask(this.task).subscribe((response: any) => {
       this.reset();
     },
@@ -140,8 +139,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   selectProject(i: number): void {
-    this.task.project = this.filteredProjects[i];
-    //this.task.project = this.filteredProjects[i];
+    this.task.project = this.filteredProjects[i];    
     this.closeProjectModal();
   }
 
