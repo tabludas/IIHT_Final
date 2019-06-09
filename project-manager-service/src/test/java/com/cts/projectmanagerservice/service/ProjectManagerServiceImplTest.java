@@ -108,7 +108,7 @@ public class ProjectManagerServiceImplTest {
         allUsers.add(user2);
 
         List<User> expectedUsers = new ArrayList<User>();
-        expectedUsers.add(user1);
+        expectedUsers.add(user2);
 
         when(projectManagerUserRepository.findAll()).thenReturn(allUsers);
         List<User> actualUsers = projectManagerService.getUsers();

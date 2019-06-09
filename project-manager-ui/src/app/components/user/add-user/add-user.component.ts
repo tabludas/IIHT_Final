@@ -54,15 +54,8 @@ export class AddUserComponent implements OnInit {
 
   }
 
-  deleteUser(i: number): void {
-    /*this.projectService.deleteUser(this.filteredUsers[i]).subscribe((response: any) => {
-      console.log("Response-> " + response);
-      const result=this.filteredUsers.filter(item=>item.userId!=this.filteredUsers[i].userId);
-      this.filteredUsers=result;
-    },
-      error => this.errorMsg = <any>error
-    );*/
-    this.filteredUsers[i].active = "Y";
+  deleteUser(i: number): void {   
+    this.filteredUsers[i].active = "N";
     this.projectService.saveOrUpdateUser(this.filteredUsers[i]).subscribe((response: any) => {
       this.getUsers();
     },

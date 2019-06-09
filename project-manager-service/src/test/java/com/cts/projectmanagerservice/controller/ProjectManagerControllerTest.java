@@ -135,7 +135,7 @@ public class ProjectManagerControllerTest {
         user.setUserId(1);
         user.setFirstName("Ram");
         user.setLastName("Das");
-        user.setActive("N");
+        user.setActive("Y");
         return user;
     }
 

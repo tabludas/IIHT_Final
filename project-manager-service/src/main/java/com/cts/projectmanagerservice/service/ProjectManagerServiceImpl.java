@@ -62,7 +62,7 @@ public class ProjectManagerServiceImpl implements ProjectManagerService {
     public List<User> getUsers() throws ProjectManagerException {
         logger.info("Enter into ProjectManagerServiceImpl: getUsers()");
         List<User> users=projectManagerUserRepository.findAll();
-        users=users.stream().filter(user->user.getActive().equals("N")).collect(Collectors.toList());
+        users=users.stream().filter(user->user.getActive().equals("Y")).collect(Collectors.toList());
         return users;
     }
 
