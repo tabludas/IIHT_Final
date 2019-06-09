@@ -102,16 +102,20 @@ export class AddProjectComponent implements OnInit {
   }
 
   updateProject(i: number): void {    
-    this.projectService.saveOrUpdateProject(this.filteredData[i]).subscribe((response: any) => {
-      if (!this.filteredData.some(project => project.projectId === this.filteredData[i].projectId)) {
-        this.filteredData.push(this.filteredData[i]);
-      }
+    this.projectService.saveOrUpdateProject(this.filteredData[i]).subscribe((response: any) => {    
       this.closeProjectModal();
-
     },
       error => this.errorMsg = <any>error
     );
    
+  }
+
+  suspend(i: number): void {
+    this.filteredData[i].projectCompleted="Y";
+    this.projectService.saveOrUpdateProject(this.filteredData[i]).subscribe((response: any) => {
+      },
+      error => this.errorMsg = <any>error
+    );
   }
 
   performProjectFilter(filterValue: string): Project[] {
@@ -239,13 +243,7 @@ export class AddProjectComponent implements OnInit {
       flag = false;
     }
     return flag;
-  }
-
-  suspend(i: number): void {
-    this.project = this.filteredData[i];
-    this.project.projectCompleted = "Y";
-    this.updateProject(i);
-  }
+  }  
 
   maipulateProjectData(projects:Project[]):void{
     let projectsWithTaskNo:Project[]=projects.map(project=>{

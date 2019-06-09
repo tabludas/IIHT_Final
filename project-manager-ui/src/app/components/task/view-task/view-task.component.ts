@@ -205,7 +205,8 @@ export class ViewTaskComponent implements OnInit {
   }
 
   reset():void{
-    this.filteredTasks = this.taskList;
+    this.projectId="";
+    this.filteredTasks = this.taskList;    
   }
 
   onKey(event: any, i): void {

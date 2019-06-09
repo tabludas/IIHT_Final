@@ -3,7 +3,7 @@
     <label for="taskName" class="col-sm-2 col-form-label-lg">Project:</label>
   </div>
   <span>
-    <input type="text" class="form-control" id="projectId" [(ngModel)]="projectId" placeholder="Project ID" readonly>
+    <input type="text" class="form-control" id="projectId" [(ngModel)]="projectId" readonly>
   </span>
   <div class="col-md-2">
     <button type="button" id="search" class="button buttonSearch" (click)="openProjectModal(template3)">Serach</button>
@@ -211,8 +211,7 @@
         <label for="Search" class="col-form-label-lg" style="margin-left: 25%">Search</label>
       </div>
       <div class="col-md-6">
-        <input type="text" name="projectSearchValue" class="form-control" [(ngModel)]="projectSearchValue"
-          placeholder="Project Name">
+        <input type="text" name="projectSearchValue" class="form-control" [(ngModel)]="projectSearchValue">
       </div>
     </div>
     <div class="row">
